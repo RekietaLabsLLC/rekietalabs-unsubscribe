@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unsubscribe from RekietaLabs Newsletter</title>
+  <link rel="icon" type="image/jpeg" href="IMG_0926.jpeg" />
+  <style>
+    :root {
+      --brand-blue: #1753aa;
+      --text-color: #ffffff;
+      --bg-color: #0f0f0f;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: var(--brand-blue);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    input[type="email"] {
+      padding: 12px;
+      width: 100%;
+      border: 2px solid var(--brand-blue);
+      background-color: #1a1a1a;
+      color: var(--text-color);
+      border-radius: 5px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      background-color: var(--brand-blue);
+      border: none;
+      color: var(--text-color);
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1461cc;
+    }
+
+    .error, .success {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .error {
+      color: #ff5555;
+    }
+
+    .success {
+      color: #00cc66;
+    }
+  </style>
+</head>
+<body>
+  <h1>Unsubscribe from RekietaLabs Newsletter</h1>
+  <form id="unsubscribe-form">
+    <input type="email" id="email" placeholder="Your email" required />
+    <button type="submit">Unsubscribe</button>
+    <div id="message" class="error" style="display: none;"></div>
+  </form>
+
+  <script>
+    const form = document.getElementById('unsubscribe-form');
+    const emailInput = document.getElementById('email');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      messageDiv.style.display = 'none';
+
+      if (!email || !email.includes('@')) {
+        messageDiv.textContent = 'Invalid email. Ref ID: 3310014';
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+        return;
+      }
+
+      try {
+        const res = await fetch("https://rwwrrrutvvsbanbzzwbq.supabase.co/rest/v1/unsubscribe", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3d3JycnV0dnZzYmFuYnp6d2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxNjg5OTgsImV4cCI6MjA2NDc0NDk5OH0.ippMWbV1M7xO7jNlkkmF9Hu517frgBpYds1-xuIBCH8",
+            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3d3JycnV0dnZzYmFuYnp6d2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkxNjg5OTgsImV4cCI6MjA2NDc0NDk5OH0.ippMWbV1M7xO7jNlkkmF9Hu517frgBpYds1-xuIBCH8",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify({ email })
+        });
+
+        if (res.status === 201) {
+          window.location.href = "https://emails.hub.rekietalabs.com/verified/unsubscribed";
+        } else {
+          messageDiv.textContent = "Unexpected error occurred. Ref ID: 3310034";
+          messageDiv.className = 'error';
+          messageDiv.style.display = 'block';
+        }
+      } catch (err) {
+        messageDiv.textContent = "Network error. Ref ID: 3310044";
+        messageDiv.className = 'error';
+        messageDiv.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
